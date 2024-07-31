@@ -30,7 +30,6 @@ function createRun(threadId, assitantId) {
 wss.on('connection', function (ws) {
   
   createThread().then((thread) => {
-    console.log('Thread createad', thread.id);
     const currentThread = {
       thread_id: thread.id,
     }
@@ -40,9 +39,7 @@ wss.on('connection', function (ws) {
   let running = false;
   ws.on('message',  (message) => {
     const res = JSON.parse(message);
-    console.log(res);
     addMessageToThread(res.thread_id, res.message).then(resMessage => {
-      console.log(resMessage);
       running = true;
       createRun(res.thread_id, res.assistant_id)
         .on('textCreated', (text) => console.log(text))
