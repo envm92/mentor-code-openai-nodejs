@@ -28,6 +28,11 @@ const RateEvent = z.object({
     reason: z.string()
 });
 
+const BigOEvent = z.object({
+    bigO: z.string(),
+    reason: z.string()
+});
+
 function createThread() {
     return openai.beta.threads.create();
 }
@@ -46,7 +51,6 @@ function createRun(threadId, assitantId, type, extraInstructions) {
         response_format: null,
         instructions: extraInstructions
     };
-    console.log(body);
     switch (type) {
         case 'comment':
             body.response_format = zodResponseFormat(CommentCodeEvent, "comment_code");
@@ -54,6 +58,8 @@ function createRun(threadId, assitantId, type, extraInstructions) {
         case 'rate':
             body.response_format = zodResponseFormat(RateEvent, "rate");
             break;
+        case 'bigo':
+            body.response_format = zodResponseFormat(BigOEvent, 'bigo');
     }
     return openai.beta.threads.runs.stream(threadId, body);
 }
