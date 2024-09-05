@@ -76,10 +76,10 @@ wss.on('connection', function (ws) {
     let running = false;
     ws.on('message', (message) => {
         const res = JSON.parse(message);
-        addMessageToThread(res.thread_id, res.message).then(resMessage => {
+        addMessageToThread(res.thread_id, res.message).then(() => {
             running = true;
             createRun(res.thread_id, res.assistant_id, res.type, res.instructions)
-                .on('textDelta', (textDelta, snapshot) => {
+                .on('textDelta', (textDelta) => {
                     const textDeltaRes = {
                         text: textDelta.value,
                         running: running
