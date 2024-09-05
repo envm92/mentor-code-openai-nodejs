@@ -79,7 +79,6 @@ wss.on('connection', function (ws) {
         addMessageToThread(res.thread_id, res.message).then(resMessage => {
             running = true;
             createRun(res.thread_id, res.assistant_id, res.type, res.instructions)
-                .on('textCreated', (text) => console.log(text))
                 .on('textDelta', (textDelta, snapshot) => {
                     const textDeltaRes = {
                         text: textDelta.value,
